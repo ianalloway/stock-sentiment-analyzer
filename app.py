@@ -13,9 +13,16 @@ st.set_page_config(
     layout="wide"
 )
 
-# Initialize
-analyzer = StockSentimentAnalyzer()
-news_fetcher = NewsFetcher()
+@st.cache_resource
+def get_analyzer():
+    return StockSentimentAnalyzer()
+
+@st.cache_resource
+def get_news_fetcher():
+    return NewsFetcher()
+
+analyzer = get_analyzer()
+news_fetcher = get_news_fetcher()
 
 # Header
 st.title("📈 Stock Sentiment Analyzer")
