@@ -19,7 +19,6 @@ class NewsFetcher:
         # Search for ticker news
         params = {
             'q': ticker,
-            'apiKey': self.api_key,
             'language': 'en',
             'sortBy': 'publishedAt',
             'pageSize': num_articles
@@ -29,6 +28,7 @@ class NewsFetcher:
             response = requests.get(
                 f"{self.base_url}/everything",
                 params=params,
+                headers={"X-Api-Key": self.api_key},
                 timeout=10
             )
             
@@ -39,8 +39,8 @@ class NewsFetcher:
                 print(f"API Error: {response.status_code}")
                 return self._get_mock_data(ticker, num_articles)
                 
-        except Exception as e:
-            print(f"Error fetching news: {e}")
+        except (requests.RequestException, ValueError) as exc:
+            print(f"News request failed ({type(exc).__name__})")
             return self._get_mock_data(ticker, num_articles)
     
     def _get_mock_data(self, ticker, num_articles):
@@ -49,36 +49,41 @@ class NewsFetcher:
             {
                 'title': f"{ticker} Reports Strong Q4 Earnings, Beats Expectations",
                 'description': f"{ticker} exceeded analyst expectations with strong quarterly results, driven by increased demand and operational efficiency.",
-                'source': {'name': 'Financial Times'},
-                'url': 'https://example.com',
+                'is_sample': True,
+                'source': {'name': 'Synthetic example'},
+                'url': '',
                 'publishedAt': datetime.now().isoformat()
             },
             {
                 'title': f"Analysts Upgrade {ticker} to Buy Rating",
                 'description': f"Multiple Wall Street analysts have upgraded {ticker} to buy, citing positive growth outlook and market position.",
-                'source': {'name': 'Bloomberg'},
-                'url': 'https://example.com',
+                'is_sample': True,
+                'source': {'name': 'Synthetic example'},
+                'url': '',
                 'publishedAt': (datetime.now() - timedelta(hours=2)).isoformat()
             },
             {
                 'title': f"{ticker} Announces New Product Launch",
                 'description': f"{ticker} unveiled its latest product line, which investors see as a potential growth catalyst.",
-                'source': {'name': 'Reuters'},
-                'url': 'https://example.com',
+                'is_sample': True,
+                'source': {'name': 'Synthetic example'},
+                'url': '',
                 'publishedAt': (datetime.now() - timedelta(hours=5)).isoformat()
             },
             {
                 'title': f"Market Watch: {ticker} Faces Headwinds",
                 'description': f"Despite recent gains, {ticker} faces challenges from increased competition and regulatory scrutiny.",
-                'source': {'name': 'CNBC'},
-                'url': 'https://example.com',
+                'is_sample': True,
+                'source': {'name': 'Synthetic example'},
+                'url': '',
                 'publishedAt': (datetime.now() - timedelta(hours=8)).isoformat()
             },
             {
                 'title': f"{ticker} CEO Discusses Future Strategy",
                 'description': f"In a recent interview, the CEO outlined plans for expansion and innovation at {ticker}.",
-                'source': {'name': 'WSJ'},
-                'url': 'https://example.com',
+                'is_sample': True,
+                'source': {'name': 'Synthetic example'},
+                'url': '',
                 'publishedAt': (datetime.now() - timedelta(days=1)).isoformat()
             }
         ]

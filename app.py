@@ -70,6 +70,9 @@ if analyze_btn and ticker:
                 reddit_posts = reddit_fetcher.get_posts(ticker, num_posts=reddit_limit)
                 articles.extend(reddit_posts)
 
+            if any(article.get("is_sample") for article in articles):
+                st.warning("NewsAPI is unavailable. This analysis includes fictional sample headlines.")
+
             if not articles:
                 st.error("No articles found. Try a different ticker.")
             else:
