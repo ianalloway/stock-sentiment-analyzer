@@ -52,6 +52,8 @@ stock-sentiment-analyzer/
 └── README.md
 ```
 
+Missing NewsAPI credentials and failed requests use fictional sample headlines. The app labels these examples before calculating sentiment, including when the selection mixes news with Reddit posts.
+
 ## API Keys Required
 
 - **NewsAPI**: Get free key at https://newsapi.org
